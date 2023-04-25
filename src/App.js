@@ -4,6 +4,14 @@ import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+// import ViewCalender from "./components/ViewCalender"
+import {
+  Routes,
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+import ViewCalender from './components/ViewCalender';
 // import { GoogleOAuthProvider, GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 
 function App() {
@@ -44,55 +52,66 @@ function App() {
   const [signedIn, setsignedIn] = useState(false)
 
   return (
-    <div>
-      <div className="App">
-        <h1>Google Calender</h1>
-      </div>
-      {
-        !signedIn ? (
-          <div>
-            <GoogleLogin
-              clientId='53637382107-cj4jbju9dvsfgkql17q1tqis251il92g.apps.googleusercontent.com'
-              buttonText='signIn and Authorize Calender'
-              onSuccess={responseSuccess}
-              onFailure={responseFailure}
-              cookiePolicy={'single_host_origin'}
-              responseType='code'
-              accessType='offline'
-              scope='openid email profile https://www.googleapis.com/auth/calendar'
-            />
+    <>
+      <Router>
+        <div>
+          <div className="App">
+            <h1>Google Calender</h1>
           </div>
-        ) : (
-          <div>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor='summary'>Summary</label>
-              <br />
-              <input type='text' id='summary' value={summary} onChange={e => setSummary(e.target.value)} />
-              <br />
-              <label htmlFor='description'>Description</label>
-              <br />
-              <textarea type='text' id='description' value={description} onChange={e => setdescription(e.target.value)} />
-              <br />
-              <label htmlFor='location'>Location</label>
-              <br />
-              <input type='text' id='location' value={location} onChange={e => setlocation(e.target.value)} />
-              <br />
-              <label htmlFor='startDateTime'>startDateTime</label>
-              <br />
-              <input type='datetime-local' id='startDateTime' value={startDataTime} onChange={e => setstartDataTime(e.target.value)} />
-              <br />
-              <label htmlFor='endDateTime'>endDateTime</label>
-              <br />
-              <input type='datetime-local' id='endDateTime' value={endDateTime} onChange={e => setendDateTime(e.target.value)} />
-              <br />
-              <button type='submit'> create event</button>
-            </form>
-          </div>
-        )
-      }
+          {
+            !signedIn ? (
+              <div>
+                <GoogleLogin
+                  clientId='53637382107-cj4jbju9dvsfgkql17q1tqis251il92g.apps.googleusercontent.com'
+                  buttonText='signIn and Authorize Calender'
+                  onSuccess={responseSuccess}
+                  onFailure={responseFailure}
+                  cookiePolicy={'single_host_origin'}
+                  responseType='code'
+                  accessType='offline'
+                  scope='openid email profile https://www.googleapis.com/auth/calendar'
+                />
+              </div>
+            ) : (
+              <div>
+                <form onSubmit={handleSubmit}>
+                  <label htmlFor='summary'>Summary</label>
+                  <br />
+                  <input type='text' id='summary' value={summary} onChange={e => setSummary(e.target.value)} />
+                  <br />
+                  <label htmlFor='description'>Description</label>
+                  <br />
+                  <textarea type='text' id='description' value={description} onChange={e => setdescription(e.target.value)} />
+                  <br />
+                  <label htmlFor='location'>Location</label>
+                  <br />
+                  <input type='text' id='location' value={location} onChange={e => setlocation(e.target.value)} />
+                  <br />
+                  <label htmlFor='startDateTime'>startDateTime</label>
+                  <br />
+                  <input type='datetime-local' id='startDateTime' value={startDataTime} onChange={e => setstartDataTime(e.target.value)} />
+                  <br />
+                  <label htmlFor='endDateTime'>endDateTime</label>
+                  <br />
+                  <input type='datetime-local' id='endDateTime' value={endDateTime} onChange={e => setendDateTime(e.target.value)} />
+                  <br />
+                  <button type='submit'> create event</button>
+                </form>
+
+                <br />
+                <Link to='/viewCalendr'>
+                  {/* <Route path='/viewCalendr'> */}
+                  <ViewCalender />
+                  {/* </Route> */}
+                </Link >
+              </div>
+            )
+          }
 
 
-    </div>
+        </div>
+      </Router>
+    </>
   );
 }
 
